@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "Vector3f.hpp"
+
 using namespace std;
 
 constexpr int image_width {960};
@@ -19,14 +21,12 @@ inline void print_ppm_header()
 int main()
 {
 	print_ppm_header();
-	int r {0};
-	int g {0};
-	constexpr int b {0};
+	auto color = Vector3f(0.0f, 0.0f, 0.0f);
 	for (int row {image_height}; row != 0; --row) {
 		for (int col {0}; col != image_width; ++col) {
-			r = static_cast<int>(dx * 255.0f * col);
-			g = static_cast<int>(dy * 255.0f * row);
-			cout << r << " " << g << " " << b << "\n";
+			color.r() = dx * col;
+			color.g() = dy * row;
+			cout << color;
 		}
 	}
 	return 0;
