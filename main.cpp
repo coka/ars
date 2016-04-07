@@ -6,6 +6,7 @@
 
 #include "Vector3f.hpp"
 #include "Ray.hpp"
+#include "Sphere.hpp"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ const auto virtual_plane_horizontal = Vector3f(2.0f, 0.0f, 0.0f);
 const auto virtual_plane_vertical = Vector3f(0.0f, 2.0f, 0.0f);
 const Vector3f x_offset = dx * virtual_plane_horizontal;
 const Vector3f y_offset = dy * virtual_plane_vertical;
+const auto sphere = Sphere(Vector3f(0.0f, 0.0f, -5.0f), 1.0f);
+const auto sphere_color = Vector3f(1.0f, 0.0f, 1.0f);
 
 inline void print_ppm_header()
 {
@@ -33,7 +36,11 @@ int main()
 		ray.direction += y_offset;
 		for (int col {0}; col != image_width; ++col) {
 			ray.direction += x_offset;
-			cout << (get_normalized(ray.direction) + 1.0f) * 0.5f;
+			if (ray.is_intersecting(sphere)) {
+				cout << sphere_color;
+			} else {
+				cout << (get_normalized(ray.direction) + 1.0f) * 0.5f;
+			}
 		}
 		ray.direction -= virtual_plane_horizontal;
 	}
